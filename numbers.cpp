@@ -3,10 +3,11 @@ Name: Eselly Lopez Luna
 Email: eselly.lopezluna11@myhunter.cuny.edu
 Course: CSCI 135
 Instructor:  Tong Yi
-Assignment: Lab 5A
-Program: This program defines a function isDivisibleBy
+Date: Oct 2024
+Assignment: Lab 5B
+Program: This program defines adds a function isPrime
 which returns true or false based on whether a
-number is divisible by another number
+number is a prime number
 */
 
 #include <iostream>
@@ -30,15 +31,33 @@ bool isDivisibleBy(int n, int d)
         return false;
     }
 }
+
+bool isPrime(int n)
+{
+    bool isPrime = true;
+    if (n == 1 || n == 0 || n < 0)
+    {
+        isPrime = false;
+        return isPrime;
+    }
+
+    for (int i = 1; i < n - 1; i++)
+    {
+        if (n % i == 0 && i > 1)
+        {
+            isPrime = false;
+        }
+    }
+
+    return isPrime;
+}
 int main()
 {
     int n, d;
-    cout << "Enter first number: " << endl;
+    cout << "Enter a number: " << endl;
     cin >> n;
-    cout << "Enter second number: " << endl;
-    cin >> d;
 
-    isDivisibleBy(n, d);
+    isPrime(n);
 
     return 0;
 }
