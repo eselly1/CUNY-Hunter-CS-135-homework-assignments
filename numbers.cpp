@@ -4,10 +4,10 @@ Email: eselly.lopezluna11@myhunter.cuny.edu
 Course: CSCI 135
 Instructor:  Tong Yi
 Date: Oct 2024
-Assignment: Lab 5B
-Program: This program defines adds a function isPrime
-which returns true or false based on whether a
-number is a prime number
+Assignment: Lab 5C
+Program: This program defines adds a function
+nextPrime which returns the next smallest 
+prime number after given number n
 */
 
 #include <iostream>
@@ -31,7 +31,6 @@ bool isDivisibleBy(int n, int d)
         return false;
     }
 }
-
 bool isPrime(int n)
 {
     bool isPrime = true;
@@ -51,13 +50,22 @@ bool isPrime(int n)
 
     return isPrime;
 }
+int nextPrime(int n){
+    do{
+        n += 1;
+        isPrime(n);
+    }
+    while(not isPrime(n));
+    
+    return n;
+}
 int main()
 {
-    int n, d;
+    int n;
     cout << "Enter a number: " << endl;
     cin >> n;
 
-    isPrime(n);
+    nextPrime(n);
 
     return 0;
 }
