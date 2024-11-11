@@ -3,10 +3,8 @@ name: Eselly Lopez Luna
 email: eselly.lopezluna11@myhunter.cuny.edu
 course: CSCI 135
 instructor: Tong Yi
-assignment: Lab 8C
-program: This program creates a white box
-in the middle of a given image
-*/
+assignment: Lab 8A
+program: This program inverts the colors of a given image*/
 
 #include <iostream>
 #include <cassert>
@@ -97,19 +95,14 @@ int main() {
 	// for example we copy its contents into a new array
 	int out[MAX_H][MAX_W];
 
-	for (int row = 0; row < h; row++) {
-		for (int col = 0; col < w; col++) {
-            
-			out[row][col] = img[row][col];
+	for(int row = 0; row < h; row++) {
+		for(int col = 0; col < w; col++) {
+			out[row][col] = 255 - (img[row][col]);
+			
 		}
-    }
+	}
 
-    for (int row= h/4;row < (3*h)/4 ;row++){
-        for (int col = w/4; col < (3*w)/4; col++){
-            out[row][col]=255;
-        }
-    }
-    // and save this new image to file "outImage.pgm"
-    writeImage(out, h, w);
-    
+	// and save this new image to file "outImage.pgm"
+	writeImage(out, h, w);
+
 }
