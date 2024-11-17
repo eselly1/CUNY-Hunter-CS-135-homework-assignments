@@ -4,11 +4,10 @@ email: eselly.lopezluna11@myhunter.cuny.edu
 course: CSCI 135
 date: Nov 2024
 instructor: Tong Yi
-assignment: Lab 10B
-program: This program adds the function
-addMinutes which returns the time after 
-min minutes have elapsed
-after Time time
+assignment: Lab 10c
+program: This program adds new class type movie,
+enum type genre, and function printTimeSlot, 
+which prints the end time for a movie
 */
 
 #include <iostream>
@@ -19,6 +18,21 @@ class Time
 public:
     int h;
     int m;
+};
+
+enum Genre {ACTION, COMEDY, DRAMA, ROMANCE, THRILLER};
+
+class Movie { 
+public: 
+    string title;
+    Genre genre;     
+    int duration;    
+};
+
+class Timeslot { 
+public: 
+    Movie movie;     
+    Time startTime;  
 };
 
 int minutesSinceMidnight(Time time)
@@ -71,18 +85,42 @@ Time addMinutes(Time time0, int min)
     return time0;
 }
 
+void printMovie(Movie mv){
+    string g;
+    switch (mv.genre) {
+        case ACTION   : g = "ACTION"; break;
+        case COMEDY   : g = "COMEDY"; break;
+        case DRAMA    : g = "DRAMA";  break;
+        case ROMANCE  : g = "ROMANCE"; break;
+        case THRILLER : g = "THRILLER"; break;
+    }
+    cout << mv.title << " " << g << " (" << mv.duration << " min)";
+}
+
+void printTimeSlot(Timeslot ts){
+    Time end = addMinutes(ts.startTime, ts.movie.duration);
+    
+    cout << "[starts at " << ts.startTime.h <<":"<< ts.startTime.m
+     << ", ends by " << end.h << ":" << end.m << "]" <<endl;
+
+}
+
 int main()
 {
-    int min, h, m;
-    cout << "Enter time: " << endl;
-    cin >> h >> m;
-    Time time0 = {h, m};
-
-    cout << "Enter duration: " << endl;
-    cin >> min;
-
-    time0 = addMinutes(time0, min);
-    cout << time0.h << ":" << time0.m << endl;
+    Movie movie1 = {"Back to the Future", COMEDY, 116};
+    Movie movie2 = {"Black Panther", ACTION, 134};
+    Movie movie3 = {"Hereditary", THRILLER, 127};
+    Movie movie4= {"Woman of the Hour", THRILLER, 95};
+    Timeslot morning = {movie1, {9, 15}};  
+    Timeslot late_morning = {movie4,{11,00}};
+    Timeslot daytime = {movie2, {12, 15}}; 
+    Timeslot evening = {movie2, {16, 45}}; 
+    Timeslot night = {movie3, {9,00}};
+    printTimeSlot(morning);
+    printTimeSlot(late_morning);
+    printTimeSlot(daytime);
+    printTimeSlot(evening);
+    printTimeSlot(night);
 
     return 0;
 }
