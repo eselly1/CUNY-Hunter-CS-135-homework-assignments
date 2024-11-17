@@ -4,11 +4,11 @@ email: eselly.lopezluna11@myhunter.cuny.edu
 course: CSCI 135
 date: Nov 2024
 instructor: Tong Yi
-assignment: Lab 10D
+assignment: Lab 10E
 program: This program adds new function
-scheduleAfter, which produces and returns
-a new TimeSlot for the movie nextMovie,
-scheduled immediately after the time slot ts
+timeOverlap, which returns a bool
+true if the start/end times of
+two time-slots overlap
 */
 
 #include <iostream>
@@ -38,7 +38,7 @@ public:
     int duration;
 };
 
-class Timeslot
+class TimeSlot
 {
 public:
     Movie movie;
@@ -119,20 +119,56 @@ void printMovie(Movie mv)
     cout << mv.title << " " << g << " (" << mv.duration << " min)";
 }
 
-void printTimeSlot(Timeslot ts)
+void printTimeSlot(TimeSlot ts)
 {
     Time end = addMinutes(ts.startTime, ts.movie.duration);
     printMovie(ts.movie);
     cout << "[starts at " << ts.startTime.h << ":" << ts.startTime.m
          << ", ends by " << end.h << ":" << end.m << "]" << endl;
 }
-Timeslot scheduleAfter(Timeslot ts, Movie nextMovie)
+TimeSlot scheduleAfter(TimeSlot ts, Movie nextMovie)
 {
     Time end = addMinutes(ts.startTime, ts.movie.duration);
-    Timeslot next = {nextMovie, end};
+    TimeSlot
+        next = {nextMovie, end};
     return next;
 }
 
+bool timeOverlap(TimeSlot ts1, TimeSlot ts2)
+{
+    Time ts1_end = addMinutes(ts1.startTime, ts1.movie.duration);
+    Time ts2_end = addMinutes(ts2.startTime, ts2.movie.duration);
+
+    if (ts1.startTime.h == ts2.startTime.h)
+    {
+        return true;
+    }
+
+    if (ts1_end.h == ts2.startTime.h)
+    {
+        if (ts1_end.m > ts2.startTime.m)
+            return true;
+        else
+            return false;
+    }
+    else if (ts1_end.h < ts2.startTime.h)
+    {
+        return false;
+    }
+    else if (ts2_end.h == ts1.startTime.h)
+    {
+        if (ts2_end.m > ts1.startTime.m)
+            return true;
+        else
+            return false;
+    }
+    else if (ts2_end.h < ts1.startTime.h)
+    {
+        return false;
+    }
+    return true;
+
+}
 int main()
 {
     Movie movie1 = {"Back to the Future", COMEDY, 116};
@@ -140,17 +176,13 @@ int main()
     Movie movie3 = {"Hereditary", THRILLER, 127};
     Movie movie4 = {"Woman of the Hour", THRILLER, 95};
 
-    Timeslot first = {movie1, {9, 15}};
-    Timeslot second = scheduleAfter(first, movie2);
-    Timeslot third = scheduleAfter(second, movie2);
-    Timeslot fourth = scheduleAfter(third, movie4);
-    Timeslot fifth = scheduleAfter(fourth, movie3);
+    TimeSlot first = {movie1, {9, 15}};
+    TimeSlot second = scheduleAfter(first, movie2);
+    TimeSlot third = scheduleAfter(second, movie2);
+    TimeSlot fourth = scheduleAfter(third, movie4);
+    TimeSlot fifth = scheduleAfter(fourth, movie3);
 
-    printTimeSlot(first);
-    printTimeSlot(second);
-    printTimeSlot(third);
-    printTimeSlot(fourth);
-    printTimeSlot(fifth);
+    cout << timeOverlap(first, second);
 
     return 0;
 }
